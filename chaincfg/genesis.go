@@ -124,6 +124,29 @@ var testNet3GenesisHash = chainhash.Hash([chainhash.HashSize]byte{ // Make go ve
 	0x01, 0xea, 0x33, 0x09, 0x00, 0x00, 0x00, 0x00,
 })
 
+
+/** orcaNetGenesisBlock defines the genesis block of the block chain which serves as the **/
+var orcaNetGenesisBlock = wire.MsgBlock{
+	Header: wire.BlockHeader{
+		Version:    1,
+		PrevBlock:  chainhash.Hash{},         //
+		MerkleRoot: genesisMerkleRoot,        //
+		Timestamp:  time.Unix(0x65dcd916, 0), // 2024-02-26 13:31:50 -0500 EST
+		Bits:       0x1d00ffff,               // 486604799 [00000000ffff
+		Nonce:      0x7c2bac1d,               // 2083236893
+	},
+	Transactions: []*wire.MsgTx{&genesisCoinbaseTx},
+}
+
+// orcanet hash 
+var orcaNetGenesisHash = chainhash.Hash([chainhash.HashSize]byte{
+    // The bytes of the hash should be listed in reverse order
+    0xf3, 0xfd, 0x75, 0x8f, 0xb5, 0xd6, 0x0f, 0xd3,
+    0x8c, 0x04, 0x60, 0xaa, 0x33, 0x43, 0x1b, 0x61,
+    0x6b, 0xa8, 0x38, 0x3c, 0x3e, 0x3e, 0x92, 0x3b,
+    0x74, 0x04, 0x88, 0xad, 0x69, 0x6b, 0x3f, 0x46,
+})
+
 // testNet3GenesisMerkleRoot is the hash of the first transaction in the genesis
 // block for the test network (version 3).  It is the same as the merkle root
 // for the main network.

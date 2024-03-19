@@ -535,6 +535,124 @@ var RegressionNetParams = Params{
 	HDCoinType: 1,
 }
 
+//OrcaNetParams defines the network parameters for the OrcaNet network.
+var OrcaNetParams = Params{
+   Name:        "orcanet",
+   Net:         wire.OrcaNet,
+   DefaultPort: "18444",
+   DNSSeeds:    []DNSSeed{}, // we keep it empty for now because i dont know what this is
+
+
+   // Chain Parameters
+   GenesisBlock:            &orcaNetGenesisBlock,
+   GenesisHash:             &orcaNetGenesisHash,
+   PowLimit:                 regressionPowLimit,
+   PowLimitBits:             0x207fffff,
+   PoWNoRetargeting:         true,
+   CoinbaseMaturity:         100,
+   BIP0034Height:            100000000, // Not active - Permit ver 1 blocks
+   BIP0065Height:            1351,      // Used by regression tests
+   BIP0066Height:            1251,      // Used by regression tests
+   SubsidyReductionInterval: 150,
+   TargetTimespan:           time.Hour * 24 * 14, // 14 days
+   TargetTimePerBlock:       time.Minute * 10,    // 10 minutes
+   RetargetAdjustmentFactor: 4,                   // 25% less, 400% more
+   ReduceMinDifficulty:      true,
+   MinDiffReductionTime:     time.Minute * 20, // TargetTimePerBlock * 2
+   GenerateSupported:        true,
+
+
+   // Checkpoints ordered from oldest to newest.
+   Checkpoints: nil,
+
+
+   // Consensus rule change deployments.
+   //
+   // The miner confirmation window is defined as:
+   //   target proof of work timespan / target proof of work spacing
+   RuleChangeActivationThreshold: 108, // 75%  of MinerConfirmationWindow
+   MinerConfirmationWindow:       144,
+   Deployments: [DefinedDeployments]ConsensusDeployment{
+       DeploymentTestDummy: {
+           BitNumber: 28,
+           DeploymentStarter: NewMedianTimeDeploymentStarter(
+               time.Time{}, // Always available for vote
+           ),
+           DeploymentEnder: NewMedianTimeDeploymentEnder(
+               time.Time{}, // Never expires
+           ),
+       },
+       DeploymentTestDummyMinActivation: {
+           BitNumber:                 22,
+           CustomActivationThreshold: 72,  // Only needs 50% hash rate.
+           MinActivationHeight:       600, // Can only activate after height 600.
+           DeploymentStarter: NewMedianTimeDeploymentStarter(
+               time.Time{}, // Always available for vote
+           ),
+           DeploymentEnder: NewMedianTimeDeploymentEnder(
+               time.Time{}, // Never expires
+           ),
+       },
+       DeploymentCSV: {
+           BitNumber: 0,
+           DeploymentStarter: NewMedianTimeDeploymentStarter(
+               time.Time{}, // Always available for vote
+           ),
+           DeploymentEnder: NewMedianTimeDeploymentEnder(
+               time.Time{}, // Never expires
+           ),
+       },
+       DeploymentSegwit: {
+           BitNumber: 1,
+           DeploymentStarter: NewMedianTimeDeploymentStarter(
+               time.Time{}, // Always available for vote
+           ),
+           DeploymentEnder: NewMedianTimeDeploymentEnder(
+               time.Time{}, // Never expires.
+           ),
+       },
+       DeploymentTaproot: {
+           BitNumber: 2,
+           DeploymentStarter: NewMedianTimeDeploymentStarter(
+               time.Time{}, // Always available for vote
+           ),
+           DeploymentEnder: NewMedianTimeDeploymentEnder(
+               time.Time{}, // Never expires.
+           ),
+           CustomActivationThreshold: 108, // Only needs 75% hash rate.
+       },
+   },
+
+
+   // Mempool parameters
+   RelayNonStdTxs: true,
+
+
+   // Human-readable part for Bech32 encoded segwit addresses, as defined in
+   // BIP 173.
+   Bech32HRPSegwit: "bcrt", // always bcrt for reg test net
+
+
+   // Address encoding magics
+   // Address encoding magics
+   PubKeyHashAddrID:        0x00, // starts with 1
+   ScriptHashAddrID:        0x05, // starts with 3
+   PrivateKeyID:            0x80, // starts with 5 (uncompressed) or K (compressed)
+   WitnessPubKeyHashAddrID: 0x06, // starts with p2
+   WitnessScriptHashAddrID: 0x0A, // starts with 7Xh
+
+
+   // BIP32 hierarchical deterministic extended key magics
+   HDPrivateKeyID: [4]byte{0x04, 0x88, 0xad, 0xe4}, // starts with xprv
+   HDPublicKeyID:  [4]byte{0x04, 0x88, 0xb2, 0x1e}, // starts with xpub
+
+
+   // BIP44 coin type used in the hierarchical deterministic path for
+   // address generation.
+   HDCoinType: 1,
+}
+
+
 // TestNet3Params defines the network parameters for the test Bitcoin network
 // (version 3).  Not to be confused with the regression test network, this
 // network is sometimes simply called "testnet".
