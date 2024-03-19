@@ -51,7 +51,7 @@ var testNet3Params = params{
 
 var orcaNetParams = params{
 	Params:  &chaincfg.OrcaNetParams,
-	rpcPort: "18334",
+	rpcPort: "8334",
 }
 
 // simNetParams contains parameters specific to the simulation test network

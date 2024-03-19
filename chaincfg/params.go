@@ -539,7 +539,7 @@ var RegressionNetParams = Params{
 var OrcaNetParams = Params{
    Name:        "orcanet",
    Net:         wire.OrcaNet,
-   DefaultPort: "18444",
+   DefaultPort: "8444",
    DNSSeeds:    []DNSSeed{}, // we keep it empty for now because i dont know what this is
 
 
