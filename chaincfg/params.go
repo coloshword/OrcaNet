@@ -549,11 +549,11 @@ var OrcaNetParams = Params{
    PowLimit:                 regressionPowLimit,
    PowLimitBits:             0x207fffff,
    PoWNoRetargeting:         true,
-   CoinbaseMaturity:         100,
+   CoinbaseMaturity:         1,
    BIP0034Height:            100000000, // Not active - Permit ver 1 blocks
    BIP0065Height:            1351,      // Used by regression tests
    BIP0066Height:            1251,      // Used by regression tests
-   SubsidyReductionInterval: 150,
+   SubsidyReductionInterval: 20,
    TargetTimespan:           time.Hour * 24 * 14, // 14 days
    TargetTimePerBlock:       time.Minute * 10,    // 10 minutes
    RetargetAdjustmentFactor: 4,                   // 25% less, 400% more
