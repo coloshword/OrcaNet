@@ -1243,10 +1243,10 @@ func createDefaultConfigFile(destinationPath string) error {
 		}
 
 		if strings.Contains(line, "addpeer=") && !hardcodedPeerAdded{
-			line = "addpeer=130.245.192.11\n" //hardcoded ip as first connector 
+			line = "addpeer=172.20.10.2\n" //hardcoded ip as first connector 
 			hardcodedPeerAdded = true
 		} else if strings.Contains(line, "; addpeer=") && !hardcodedPeerAdded { 
-			line = "addpeer=130.245.192.11\n"
+			line = "addpeer=172.20.10.2\n"
 			hardcodedPeerAdded = true
 		}
 
