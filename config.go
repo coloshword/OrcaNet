@@ -1184,6 +1184,7 @@ func loadConfig() (*config, []string, error) {
 // createDefaultConfig copies the file sample-btcd.conf to the given destination path,
 // and populates it with some randomly generated RPC username and password.
 func createDefaultConfigFile(destinationPath string) error {
+	hardcodedPeerAdded := false // we want to only add the hardcoded peer into the config file once 
 	// Create the destination directory if it does not exists
 	err := os.MkdirAll(filepath.Dir(destinationPath), 0700)
 	if err != nil {
@@ -1234,15 +1235,25 @@ func createDefaultConfigFile(destinationPath string) error {
 			return err
 		}
 
+
 		if strings.Contains(line, "rpcuser=") {
 			line = "rpcuser=" + generatedRPCUser + "\n"
 		} else if strings.Contains(line, "rpcpass=") {
 			line = "rpcpass=" + generatedRPCPass + "\n"
 		}
 
+		if strings.Contains(line, "addpeer=") && !hardcodedPeerAdded{
+			line = "addpeer=130.245.192.11\n" //hardcoded ip as first connector 
+			hardcodedPeerAdded = true
+		} else if strings.Contains(line, "; addpeer=") && !hardcodedPeerAdded { 
+			line = "addpeer=130.245.192.11\n"
+			hardcodedPeerAdded = true
+		}
+
 		if _, err := dest.WriteString(line); err != nil {
 			return err
 		}
+		
 	}
 
 	return nil
