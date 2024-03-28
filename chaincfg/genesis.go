@@ -131,20 +131,24 @@ var orcaNetGenesisBlock = wire.MsgBlock{
 		Version:    1,
 		PrevBlock:  chainhash.Hash{},         //
 		MerkleRoot: genesisMerkleRoot,        //
-		Timestamp:  time.Unix(0x65dcd916, 0), // 2024-02-26 13:31:50 -0500 EST
+		Timestamp:  time.Unix(1701599110, 0), // 2024-02-26 13:31:50 -0500 EST
 		Bits:       0x1d00ffff,               // 486604799 [00000000ffff
-		Nonce:      0x7c2bac1d,               // 2083236893
+		Nonce:      0x00000000,               // 2083236893
 	},
 	Transactions: []*wire.MsgTx{&genesisCoinbaseTx},
 }
 
+
+c1 98 d0 ca be 9a 7d ba a8 6a 80 96 a8 5a f3 51 df cd ce 40 be 3f f3 26 55 4b 04 7e 01 a4 4e bc
+
+// c198d0cabe9a7dbaa86a8096a85af351dfcdce40be3ff326554b047e01a44ebc
 // orcanet hash 
 var orcaNetGenesisHash = chainhash.Hash([chainhash.HashSize]byte{
     // The bytes of the hash should be listed in reverse order
-    0xf3, 0xfd, 0x75, 0x8f, 0xb5, 0xd6, 0x0f, 0xd3,
-    0x8c, 0x04, 0x60, 0xaa, 0x33, 0x43, 0x1b, 0x61,
-    0x6b, 0xa8, 0x38, 0x3c, 0x3e, 0x3e, 0x92, 0x3b,
-    0x74, 0x04, 0x88, 0xad, 0x69, 0x6b, 0x3f, 0x46,
+    0xbc, 0x4e, 0xa4, 0x01, 0x7e, 0x04, 0x4b, 0x55,
+    0x26, 0xf3, 0x3f, 0xbe, 0x40, 0xce, 0xcd, 0xdf,
+    0x51, 0xf3, 0x5a, 0xa8, 0x96, 0x80, 0x6a, 0xa8,
+    0xba, 0x7d, 0x9a, 0xbe, 0xca, 0xd0, 0x98, 0xc1,
 })
 
 // testNet3GenesisMerkleRoot is the hash of the first transaction in the genesis

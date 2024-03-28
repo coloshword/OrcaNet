@@ -27,6 +27,8 @@ var (
 	// have for the main network.  It is the value 2^224 - 1.
 	mainPowLimit = new(big.Int).Sub(new(big.Int).Lsh(bigOne, 224), bigOne)
 
+	orcaNetPowLimit = new(big.Int).Sub(new(big.Int).Lsh(bigOne, 224), bigOne)
+
 	// regressionPowLimit is the highest proof of work value a Bitcoin block
 	// can have for the regression test network.  It is the value 2^255 - 1.
 	regressionPowLimit = new(big.Int).Sub(new(big.Int).Lsh(bigOne, 255), bigOne)
@@ -539,27 +541,27 @@ var RegressionNetParams = Params{
 var OrcaNetParams = Params{
    Name:        "orcanet",
    Net:         wire.OrcaNet,
-   DefaultPort: "8444",
+   DefaultPort: "41600",
    DNSSeeds:    []DNSSeed{}, // we keep it empty for now because i dont know what this is
 
 
    // Chain Parameters
    GenesisBlock:            &orcaNetGenesisBlock,
    GenesisHash:             &orcaNetGenesisHash,
-   PowLimit:                 regressionPowLimit,
-   PowLimitBits:             0x207fffff,
-   PoWNoRetargeting:         true,
-   CoinbaseMaturity:         1,
-   BIP0034Height:            100000000, // Not active - Permit ver 1 blocks
-   BIP0065Height:            1351,      // Used by regression tests
-   BIP0066Height:            1251,      // Used by regression tests
-   SubsidyReductionInterval: 20,
+   PowLimit:                 orcaNetPowLimit,
+   PowLimitBits:             0x1d00ffff,
+   PoWNoRetargeting:         false,
+   CoinbaseMaturity:         50,
+   BIP0034Height:            227931, // Not active - Permit ver 1 blocks
+   BIP0065Height:            388381,      // Used by regression tests
+   BIP0066Height:            363725,      // Used by regression tests
+   SubsidyReductionInterval: 100,
    TargetTimespan:           time.Hour * 24 * 14, // 14 days
    TargetTimePerBlock:       time.Minute * 10,    // 10 minutes
-   RetargetAdjustmentFactor: 4,                   // 25% less, 400% more
+   RetargetAdjustmentFactor: 2,                   // 25% less, 400% more
    ReduceMinDifficulty:      true,
-   MinDiffReductionTime:     time.Minute * 20, // TargetTimePerBlock * 2
-   GenerateSupported:        true,
+   MinDiffReductionTime:     0, // TargetTimePerBlock * 2
+   GenerateSupported:        false,
 
 
    // Checkpoints ordered from oldest to newest.
@@ -573,83 +575,80 @@ var OrcaNetParams = Params{
    RuleChangeActivationThreshold: 108, // 75%  of MinerConfirmationWindow
    MinerConfirmationWindow:       144,
    Deployments: [DefinedDeployments]ConsensusDeployment{
-       DeploymentTestDummy: {
-           BitNumber: 28,
-           DeploymentStarter: NewMedianTimeDeploymentStarter(
-               time.Time{}, // Always available for vote
-           ),
-           DeploymentEnder: NewMedianTimeDeploymentEnder(
-               time.Time{}, // Never expires
-           ),
-       },
-       DeploymentTestDummyMinActivation: {
-           BitNumber:                 22,
-           CustomActivationThreshold: 72,  // Only needs 50% hash rate.
-           MinActivationHeight:       600, // Can only activate after height 600.
-           DeploymentStarter: NewMedianTimeDeploymentStarter(
-               time.Time{}, // Always available for vote
-           ),
-           DeploymentEnder: NewMedianTimeDeploymentEnder(
-               time.Time{}, // Never expires
-           ),
-       },
-       DeploymentCSV: {
-           BitNumber: 0,
-           DeploymentStarter: NewMedianTimeDeploymentStarter(
-               time.Time{}, // Always available for vote
-           ),
-           DeploymentEnder: NewMedianTimeDeploymentEnder(
-               time.Time{}, // Never expires
-           ),
-       },
-       DeploymentSegwit: {
-           BitNumber: 1,
-           DeploymentStarter: NewMedianTimeDeploymentStarter(
-               time.Time{}, // Always available for vote
-           ),
-           DeploymentEnder: NewMedianTimeDeploymentEnder(
-               time.Time{}, // Never expires.
-           ),
-       },
-       DeploymentTaproot: {
-           BitNumber: 2,
-           DeploymentStarter: NewMedianTimeDeploymentStarter(
-               time.Time{}, // Always available for vote
-           ),
-           DeploymentEnder: NewMedianTimeDeploymentEnder(
-               time.Time{}, // Never expires.
-           ),
-           CustomActivationThreshold: 108, // Only needs 75% hash rate.
-       },
-   },
+		DeploymentTestDummy: {
+			BitNumber: 28,
+			DeploymentStarter: NewMedianTimeDeploymentStarter(
+				time.Unix(11991456010, 0), // January 1, 2008 UTC
+			),
+			DeploymentEnder: NewMedianTimeDeploymentEnder(
+				time.Unix(1230767999, 0), // December 31, 2008 UTC
+			),
+		},
+		DeploymentTestDummyMinActivation: {
+			BitNumber:                 22,
+			CustomActivationThreshold: 1815,    // Only needs 90% hash rate.
+			MinActivationHeight:       10_0000, // Can only activate after height 10k.
+			DeploymentStarter: NewMedianTimeDeploymentStarter(
+				time.Time{}, // Always available for vote
+			),
+			DeploymentEnder: NewMedianTimeDeploymentEnder(
+				time.Time{}, // Never expires
+			),
+		},
+		DeploymentCSV: {
+			BitNumber: 0,
+			DeploymentStarter: NewMedianTimeDeploymentStarter(
+				time.Unix(1462060800, 0), // May 1st, 2016
+			),
+			DeploymentEnder: NewMedianTimeDeploymentEnder(
+				time.Unix(1493596800, 0), // May 1st, 2017
+			),
+		},
+		DeploymentSegwit: {
+			BitNumber: 1,
+			DeploymentStarter: NewMedianTimeDeploymentStarter(
+				time.Unix(1479168000, 0), // November 15, 2016 UTC
+			),
+			DeploymentEnder: NewMedianTimeDeploymentEnder(
+				time.Unix(1510704000, 0), // November 15, 2017 UTC.
+			),
+		},
+		DeploymentTaproot: {
+			BitNumber: 2,
+			DeploymentStarter: NewMedianTimeDeploymentStarter(
+				time.Unix(1619222400, 0), // April 24th, 2021 UTC.
+			),
+			DeploymentEnder: NewMedianTimeDeploymentEnder(
+				time.Unix(1628640000, 0), // August 11th, 2021 UTC.
+			),
+			CustomActivationThreshold: 1815, // 90%
+			MinActivationHeight:       709_632,
+		},
+	},
 
+	// Mempool parameters
+	RelayNonStdTxs: false,
 
-   // Mempool parameters
-   RelayNonStdTxs: true,
+	// Human-readable part for Bech32 encoded segwit addresses, as defined in
+	// BIP 173.
+	Bech32HRPSegwit: "bc", // always bc for main net
 
+	// Address encoding magics
+	// these are used to determine the type of network for a particular address
+	PubKeyHashAddrID:        0x00, // starts with 1
+	ScriptHashAddrID:        0x05, // starts with 3
+	PrivateKeyID:            0x80, // starts with 5 (uncompressed) or K (compressed)
+	WitnessPubKeyHashAddrID: 0x06, // starts with p2
+	WitnessScriptHashAddrID: 0x0A, // starts with 7Xh
 
-   // Human-readable part for Bech32 encoded segwit addresses, as defined in
-   // BIP 173.
-   Bech32HRPSegwit: "bcrt", // always bcrt for reg test net
+	// BIP32 hierarchical deterministic extended key magics
+	// these are used for different wallet interpolation
+	HDPrivateKeyID: [4]byte{0x04, 0x88, 0xad, 0xe4}, // starts with xprv
+	HDPublicKeyID:  [4]byte{0x04, 0x88, 0xb2, 0x1e}, // starts with xpub
 
-
-   // Address encoding magics
-   // Address encoding magics
-   PubKeyHashAddrID:        0x00, // starts with 1
-   ScriptHashAddrID:        0x05, // starts with 3
-   PrivateKeyID:            0x80, // starts with 5 (uncompressed) or K (compressed)
-   WitnessPubKeyHashAddrID: 0x06, // starts with p2
-   WitnessScriptHashAddrID: 0x0A, // starts with 7Xh
-
-
-   // BIP32 hierarchical deterministic extended key magics
-   HDPrivateKeyID: [4]byte{0x04, 0x88, 0xad, 0xe4}, // starts with xprv
-   HDPublicKeyID:  [4]byte{0x04, 0x88, 0xb2, 0x1e}, // starts with xpub
-
-
-   // BIP44 coin type used in the hierarchical deterministic path for
-   // address generation.
-   HDCoinType: 1,
+	// BIP44 coin type used in the hierarchical deterministic path for
+	// address generation.
+	HDCoinType: 0,
 }
 
 
