@@ -139,7 +139,6 @@ var orcaNetGenesisBlock = wire.MsgBlock{
 }
 
 
-c1 98 d0 ca be 9a 7d ba a8 6a 80 96 a8 5a f3 51 df cd ce 40 be 3f f3 26 55 4b 04 7e 01 a4 4e bc
 
 // c198d0cabe9a7dbaa86a8096a85af351dfcdce40be3ff326554b047e01a44ebc
 // orcanet hash 
