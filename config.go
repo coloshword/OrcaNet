@@ -1188,7 +1188,7 @@ func createDefaultConfigFile(destinationPath string) error {
 	// add these lines manually
 	//connect=130.245.173.200:41600
 	//connect=130.245.173.203:41600
-	numAdded := 0
+	//numAdded := 0
 
 	err := os.MkdirAll(filepath.Dir(destinationPath), 0700)
 	if err != nil {
@@ -1246,26 +1246,26 @@ func createDefaultConfigFile(destinationPath string) error {
 			line = "rpcpass=" + generatedRPCPass + "\n"
 		}
 
-		if strings.Contains(line, "addpeer="){
-			if(numAdded == 0) {
-				line = "connect=130.245.173.200:41600\n" //hardcoded ip as first connector 
-				numAdded++
-			}
-			if(numAdded == 1) {
-				line = "connect=130.245.173.203:41600"
-				numAdded++
-			}
-		} else if strings.Contains(line, "; addpeer=") { 
-			line = "addpeer=172.20.10.2\n"
-			if(numAdded == 0) {
-				line = "connect=130.245.173.200:41600\n" //hardcoded ip as first connector 
-				numAdded++
-			}
-			if(numAdded == 1) {
-				line = "connect=130.245.173.203:41600"
-				numAdded++
-			}
-		}
+		// if strings.Contains(line, "addpeer="){
+		// 	if(numAdded == 0) {
+		// 		line = "connect=130.245.173.200:41600\n" //hardcoded ip as first connector 
+		// 		numAdded++
+		// 	}
+		// 	if(numAdded == 1) {
+		// 		line = "connect=130.245.173.203:41600"
+		// 		numAdded++
+		// 	}
+		// } else if strings.Contains(line, "; addpeer=") { 
+		// 	line = "addpeer=172.20.10.2\n"
+		// 	if(numAdded == 0) {
+		// 		line = "connect=130.245.173.200:41600\n" //hardcoded ip as first connector 
+		// 		numAdded++
+		// 	}
+		// 	if(numAdded == 1) {
+		// 		line = "connect=130.245.173.203:41600"
+		// 		numAdded++
+		// 	}
+		// }
 
 		if _, err := dest.WriteString(line); err != nil {
 			return err
