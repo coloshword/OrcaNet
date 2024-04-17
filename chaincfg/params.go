@@ -27,7 +27,7 @@ var (
 	// have for the main network.  It is the value 2^224 - 1.
 	mainPowLimit = new(big.Int).Sub(new(big.Int).Lsh(bigOne, 224), bigOne)
 
-	orcaNetPowLimit = new(big.Int).Sub(new(big.Int).Lsh(bigOne, 255), bigOne)
+	orcaNetPowLimit = new(big.Int).Sub(new(big.Int).Lsh(bigOne, 224), bigOne)
 
 	// regressionPowLimit is the highest proof of work value a Bitcoin block
 	// can have for the regression test network.  It is the value 2^255 - 1.
@@ -547,8 +547,8 @@ var OrcaNetParams = Params{
     // Chain Parameters
     GenesisBlock:            &orcaNetGenesisBlock,
     GenesisHash:             &orcaNetGenesisHash,
-    PowLimit:                orcaNetPowLimit, // Update this line with the new PowLimit
-    PowLimitBits:            0x207fffff, // You may need to adjust this as well based on the new PowLimit
+    PowLimit:                orcaNetPowLimit, 
+    PowLimitBits:            0x207fffff,
     PoWNoRetargeting:         true,
     CoinbaseMaturity:         1,
     BIP0034Height:            100000000, // Not active - Permit ver 1 blocks
@@ -557,7 +557,7 @@ var OrcaNetParams = Params{
     SubsidyReductionInterval: 20,
     TargetTimespan:           time.Hour * 24 * 14, // 14 days
     TargetTimePerBlock:       time.Minute * 10,    // 10 minutes
-    RetargetAdjustmentFactor: 4,                   // 25% less, 400% more
+    RetargetAdjustmentFactor: 4,                   
     ReduceMinDifficulty:      true,
     MinDiffReductionTime:     time.Minute * 20, // TargetTimePerBlock * 2
     GenerateSupported:        true,
