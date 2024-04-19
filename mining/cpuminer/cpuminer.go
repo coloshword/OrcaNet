@@ -155,7 +155,7 @@ out:
 func (m *CPUMiner) submitBlock(block *btcutil.Block) bool {
 	m.submitBlockLock.Lock()
 	defer m.submitBlockLock.Unlock()
-
+	fmt.Println("submitting block")
 	// Ensure the block is not stale since a new block could have shown up
 	// while the solution was being found.  Typically that condition is
 	// detected and all work on the stale block is halted to start work on
@@ -206,7 +206,7 @@ func (m *CPUMiner) submitBlock(block *btcutil.Block) bool {
 // new transactions and enough time has elapsed without finding a solution.
 func (m *CPUMiner) solveBlock(msgBlock *wire.MsgBlock, blockHeight int32,
 	ticker *time.Ticker, quit chan struct{}) bool {
-
+	fmt.Println("solving block")
 	// Choose a random extra nonce offset for this block template and
 	// worker.
 	enOffset, err := wire.RandomUint64()
@@ -298,7 +298,7 @@ func (m *CPUMiner) solveBlock(msgBlock *wire.MsgBlock, blockHeight int32,
 // It must be run as a goroutine.
 func (m *CPUMiner) generateBlocks(quit chan struct{}) {
 	log.Tracef("Starting generate blocks worker")
-
+	fmt.Println("starting generate blocks")
 	// Start a ticker which is used to signal checks for stale work and
 	// updates to the speed monitor.
 	ticker := time.NewTicker(time.Second * hashUpdateSecs)

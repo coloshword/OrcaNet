@@ -418,7 +418,7 @@ func pledgex(promises string) {
 }
 
 func init() {
-	pledgex("unveil stdio id rpath wpath cpath flock dns inet tty")
+	pledgex("unveil stdio id rpath wpath cpath flock dns inet tty") 
 }
 
 func main() {
